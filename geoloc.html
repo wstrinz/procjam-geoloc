@@ -1,0 +1,23 @@
+<head>
+<!-- <script src="/_reactor/debug.js"></script> -->
+<script src="/elm.js"></script>
+</head>
+<div id="thediv">
+</div>
+
+<body>
+<script type="text/javascript">
+var div = document.getElementById('thediv');
+// embed our Elm program in that <div>
+// var main = Elm.fullscreenDebug('Loctest', './loctest.elm')
+var app = Elm.embed(Elm.Loctest, div, {currentLoc: {lat: 0.0, lng: 0.0, ntimes: 0}});
+var times = 0;
+navigator.geolocation.watchPosition(function(loc){
+  console.log("new loc", loc)
+  times = times + 1
+  app.ports.currentLoc.send({lat: loc.coords.latitude, lng: loc.coords.longitude, ntimes: times})
+}, function(err){ alert("an error!", err)},
+  {maximumAge: 1}
+)
+</script>
+</body>
