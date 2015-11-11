@@ -16,6 +16,6 @@
 # and, you'll have to watch "config/Guardfile" instead of "Guardfile"
 guard :shell do
   watch(%r{.*\.elm}) do
-    `elm-make.exe loctest.elm procgen.elm`
+    `elm make loctest.elm procgen.elm`
   end
 end
