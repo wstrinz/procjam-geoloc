@@ -4,7 +4,7 @@ type alias Entity = { species: String, name: String }
 type alias Place = { name: String, people: Entity }
 
 genPeople : Entity
-genPeople = { species = "Human", name = "Bobob obbbybob"}
+genPeople = { species = "Human", name = "yes"}
 
 getAPlace : Place
-getAPlace = { name = "thoor", people = genPeople }
+getAPlace = { name = "Coffee", people = genPeople }
