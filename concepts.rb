@@ -37,7 +37,7 @@ module Words
       if hyps == []
         words
       else
-        hyps.map(&method(:synset_hyponym_leaves))
+        hyps.map &method(:synset_hyponym_leaves)
       end
     end
 
@@ -52,11 +52,11 @@ module Words
     def self.collect_metiers(word)
       format_metiers(Words::WN.hyponym_leaves(word, :noun)).uniq
     end
+
+    def self.useful_nouns
+      collect_metiers("professional")
+    end
   end
 end
 
-#z = Class.new{include(Concepts)}.new.get_surface("craftsman")
-#puts z
-
-
-puts Words::WN.collect_metiers("professional")
+puts Words::WN.useful_nouns

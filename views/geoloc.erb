@@ -10,7 +10,10 @@
 var div = document.getElementById('thediv');
 // embed our Elm program in that <div>
 // var main = Elm.fullscreenDebug('Loctest', './loctest.elm')
-var app = Elm.embed(Elm.Loctest, div, {currentLoc: {lat: 0.0, lng: 0.0, ntimes: 0}});
+var initialState = { currentState: {location: "A Place", items: 0},
+                     currentLoc: {lat: 0.0, lng: 0.0, ntimes: 0} }
+var app = Elm.embed(Elm.Loctest, div, initialState);
+//var app = Elm.embed(Elm.Loctest, div, );
 var times = 0;
 navigator.geolocation.watchPosition(function(loc){
   console.log("new loc", loc)

@@ -17,6 +17,8 @@ type alias GeoLoc a =
 type alias GeoLocWithPlace = GeoLoc {timestamp: Int, place: Place}
 type alias GeoReading = GeoLoc {timestamp: Int}
 
+type alias GameState = {location: String, items: Int}
+
 type alias GeolocTuple = (Float, Float)
 
 type alias CurrentReading = {lat: Float, lng: Float, ntimes: Int}
@@ -25,14 +27,22 @@ geolocModel : GeoLocWithPlace
 geolocModel = { latitude = 0.0, longitude = 0.0, timestamp = 0, place = getAPlace}
 
 main : Signal Html.Html
-main = view <~ geolocMailbox.signal ~ timeMailbox.signal ~ currentLoc
+main = view <~ geolocMailbox.signal ~ timeMailbox.signal ~ currentState
 
-view : GeoLocWithPlace -> Float -> CurrentReading -> Html.Html
-view geoMod t loc = div [] [
+view : GeoLocWithPlace -> Float -> GameState -> Html.Html
+view geoMod t gState = div [] [
                          locToHtml geoMod,
                          timeHtml t,
-                         currentLocHtml loc
+                         gameStateHtml gState
                        ]
+
+gameStateHtml: GameState -> Html.Html
+gameStateHtml state = div [] [
+                        Html.h4 [] [text "At: "],
+                        div [] [text state.location],
+                        br [] [],
+                        div [] [text ("you have " ++ (toString state.items) ++ " items")]
+                      ]
 
 currentLocHtml : CurrentReading -> Html.Html
 currentLocHtml loc = div [] [
@@ -82,6 +92,8 @@ port fetchGeoLoc : Task x ()
 port fetchGeoLoc = getLocation `andThen` updateGeoloc
 
 port currentLoc : Signal CurrentReading
+
+port currentState : Signal GameState
 
 port ticker : Signal (Task x ())
 port ticker = sendNewTime
